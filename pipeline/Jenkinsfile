@@ -6,7 +6,7 @@ pipeline {
     stage('test') {
       steps {
         sh """
-          /usr/local/bin/helm lint --values=helm/artsncrafts/values.yaml helm/artsncrafts/
+          helm lint --values=helm/artsncrafts/values.yaml helm/artsncrafts/
         """
       }
     }
