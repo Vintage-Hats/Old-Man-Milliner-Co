@@ -35,8 +35,16 @@ spec:
             httpGet:
               path: /
               port: http
+          volumeMounts:
+          - mountPath: /var/www/html
+            name: site-data
+            subPath: html
           resources:
 {{ toYaml .Values.resources | indent 12 }}
+      volumes:
+      - name: site-data
+      persistentVolumeClaim:
+        claimName: site-data
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
