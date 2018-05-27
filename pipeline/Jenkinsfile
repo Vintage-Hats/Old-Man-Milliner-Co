@@ -1,9 +1,15 @@
+
 pipeline {
-  agent { 
-    kubernetes {
-      label 'helm-slave' 
-    }  
-  }
+    agent {
+        kubernetes {
+            label 'helm-slave'
+            containerTemplate {
+                name 'docker pull dtzar/helm-kubectl'
+                image 'docker.io/dtzar/helm-kubectl:latest'
+                command 'which helm'
+            }
+        }
+    }
   stages {
     stage('test') {
       steps {
