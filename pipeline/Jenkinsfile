@@ -6,14 +6,19 @@ pipeline {
     stage('test') {
       steps {
         sh """
-          /usr/local/bin/helm lint --values=helm/artsncrafts/values.yaml helm/artsncrafts/
+          export PATH=/usr/local/bin:$PATH
+          which helm
+          helm lint --values=helm/artsncrafts/values.yaml helm/artsncrafts/
         """
       }
     }
     stage('helm dry run'){
       steps {
         sh """
-          /usr/local/bin/helm init helm/artsncrafts -n dev 
+          export PATH=/usr/local/bin:$PATH
+          echo $PATH
+          which helm
+          helm init helm/artsncrafts -n dev 
         """
       }
     }
