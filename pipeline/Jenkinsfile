@@ -13,7 +13,7 @@ pipeline {
     stage('helm dry run'){
       steps {
         sh """
-          helm init helm/artsncrafts -n dev
+          helm init helm/artsncrafts -n dev 
         """
       }
     }
