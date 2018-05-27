@@ -9,9 +9,11 @@ pipeline {
       }
     }
     stage('helm dry run'){
-      sh """
-        helm init helm/artsncrafts -n dev
-      """
+      steps {
+        sh """
+          helm init helm/artsncrafts -n dev
+        """
+      }
     }
   }
 }
