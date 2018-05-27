@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent { 
+    label 'jenkins-slave' 
+  }
   stages {
     stage('test') {
       steps {
@@ -12,7 +14,7 @@ pipeline {
       steps {
         sh """
           helm init helm/artsncrafts -n dev
-          
+
         """
       }
     }
