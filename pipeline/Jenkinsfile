@@ -1,6 +1,8 @@
 pipeline {
   agent { 
-    label 'helm-slave' 
+    kubernetes {
+      label 'helm-slave' 
+    }  
   }
   stages {
     stage('test') {
