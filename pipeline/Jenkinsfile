@@ -42,21 +42,21 @@ pipeline {
     }
     stage('helm deploy to development environment'){
       when {
-        branch 'master'
-      }
-      steps {
-        sh """
-          helm install -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace prod --debug
-        """
-      }
-    }
-    stage('helm deploy to production environment'){
-      when {
         branch 'development'
       }
       steps {
         sh """
           helm install -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace dev --debug
+        """
+      }
+    }
+    stage('helm deploy to production environment'){
+      when {
+        branch 'master'
+      }
+      steps {
+        sh """
+          helm install -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace prod --debug
         """
       }
     }
