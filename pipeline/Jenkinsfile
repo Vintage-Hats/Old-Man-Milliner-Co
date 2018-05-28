@@ -6,20 +6,12 @@ pipeline {
   stages {
     stage('helm linting') {
       steps {
-        sh """
-          echo $PATH
-          which helm
-          helm lint --values=helm/artsncrafts/values.yaml helm/artsncrafts/
-        """
+        helm lint
       }
     }
     stage('helm dry run'){
       steps {
-        sh """
-          echo $PATH 
-          which helm
-          helm init helm/artsncrafts -n dev 
-        """
+        which helm
       }
     }
   }
