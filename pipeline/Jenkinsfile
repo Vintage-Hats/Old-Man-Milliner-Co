@@ -1,11 +1,20 @@
 
+def notifyStarted() {
+  // send to Slack
+  slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
+}
+
 pipeline {
   agent {
     label 'helm-slave'
   }
   stages {
 
-
+    stage('Starting pipeline run') {
+      steps {
+        notifyStarted()
+      }
+    }
     stage('helm init') {
       steps {
         sh """
