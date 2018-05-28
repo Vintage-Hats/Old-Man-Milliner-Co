@@ -1,9 +1,17 @@
-#!groovy
-@Library('bitwiseman-shared@blog/declarative/notifications') _
-def notifyStarted() {
-  // send to Slack
-  slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
-}
+AUTHOR_NAME = sh (
+  script: "git show -s | grep Author | awk '{print $2 " " $3}'",
+  returnStdout: true
+)
+
+GIT_COMMIT_HASH = sh (
+  script: "git log -n 1 --pretty=format:'%H'", 
+  returnStdout: true
+)
+
+COMMIT_MESSAGE = sh (
+  script: "git log --format=%B -n 1 HEAD",
+  returnStdout: true
+)
 
 pipeline {
   agent {
@@ -13,7 +21,7 @@ pipeline {
 
     stage('Starting pipeline run') {
       steps {
-        notifyStarted()
+        slackSend (color: '#FFFF00', message: "${AUTHOR_NAME} STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' ${COMMIT_MESSAGE} -- ${GIT_COMMIT_HASH} (${env.BUILD_URL})")
       }
     }
     stage('helm init') {
@@ -38,9 +46,13 @@ pipeline {
       }
     }
   }
-}
-post {
-  always {
-    postNotifySlack currentBuild.result
+  post {
+    success {
+      slackSend (color: '#00FF00', message: "Commit SUCCESSFUL ${GIT_COMMIT_HASH}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' ${COMMIT_MESSAGE} -- ${GIT_COMMIT_HASH} (${env.BUILD_URL}), way to be a hero ${AUTHOR_NAME}")
+    }
+
+    failure {
+      slackSend (color: '#FF0000', message: "Commit FAILED ${GIT_COMMIT_HASH}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${COMMIT_MESSAGE} -- ${GIT_COMMIT_HASH} (${env.BUILD_URL}) Looking at you $AUTHOR_NAME}")
+    }
   }
 }
