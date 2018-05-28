@@ -35,8 +35,8 @@ spec:
 {{ toYaml .Values.resources | indent 12 }}
       volumes:
       - name: site-data
-      #persistentVolumeClaim:
-        #claimName: site-data
+      persistentVolumeClaim:
+        claimName: site-data
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
