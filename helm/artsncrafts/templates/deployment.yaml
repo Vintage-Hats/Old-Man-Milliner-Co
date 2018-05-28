@@ -27,6 +27,7 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
+          volumeMounts:
           - mountPath: /var/www/html
             name: site-data
             subPath: html
