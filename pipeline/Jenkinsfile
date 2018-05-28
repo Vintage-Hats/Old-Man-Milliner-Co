@@ -6,12 +6,16 @@ pipeline {
   stages {
     stage('helm linting') {
       steps {
-        helm lint
+        sh """
+          helm init helm/artsncrafts/
+        """
       }
     }
     stage('helm dry run'){
       steps {
-        which helm
+        sh """
+          helm install helm/artsncrafts/ --dry-run --debug
+        """
       }
     }
   }
