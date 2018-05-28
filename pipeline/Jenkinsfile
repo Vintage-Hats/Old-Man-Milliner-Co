@@ -4,10 +4,12 @@ pipeline {
     label 'helm-slave'
   }
   stages {
-    stage('helm linting') {
+
+
+    stage('helm init') {
       steps {
         sh """
-          helm init
+          helm lint helm/artsncrafts/
         """
       }
     }
