@@ -27,15 +27,6 @@ spec:
             - name: http
               containerPort: 80
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /var/www/html
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /var/www/html
-              port: http
-          volumeMounts:
           - mountPath: /var/www/html
             name: site-data
             subPath: html
