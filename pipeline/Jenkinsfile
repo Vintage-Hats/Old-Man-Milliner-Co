@@ -20,10 +20,11 @@ pipeline {
         """
       }
     }
+    
     stage('helm deploy'){
       steps {
         sh """
-          helm install -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace dev --debug
+          helm tall -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace dev --debug
         """
       }
     }
