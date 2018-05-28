@@ -30,7 +30,7 @@ spec:
           volumeMounts:
           - mountPath: /var/www/html
             name: site-data
-            subPath: html/
+            subPath: html
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       volumes:
