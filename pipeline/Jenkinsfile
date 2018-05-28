@@ -1,4 +1,6 @@
 
+@Library('github.com/sorah/jenkinsfile-slack@master') _
+
 def notifyStarted() {
   // send to Slack
   slackSend (color: '#FFFF00', message: "STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' (${env.BUILD_URL})")
@@ -34,6 +36,11 @@ pipeline {
         sh """
           helm install -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace dev --debug
         """
+      }
+    }
+    post {
+      always {
+        postNotifySlack currentBuild.result
       }
     }
   }
