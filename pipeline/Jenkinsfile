@@ -22,7 +22,7 @@ pipeline {
 
     stage('Starting pipeline run') {
       steps {
-        slackSend (color: '#FFFF00', message: "${AUTHOR_NAME} STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' ${COMMIT_MESSAGE} -- ${GIT_COMMIT_HASH} (${env.BUILD_URL})")
+        slackSend (color: '#FFFF00', message: "${AUTHOR_NAME} STARTED: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' ${COMMIT_MESSAGE} -- https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH} (${env.BUILD_URL})")
       }
     }
     stage('helm init') {
@@ -49,11 +49,11 @@ pipeline {
   }
   post {
     success {
-      slackSend (color: '#00FF00', message: "Commit SUCCESSFUL ${GIT_COMMIT_HASH}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]' ${COMMIT_MESSAGE} -- ${GIT_COMMIT_HASH} (${env.BUILD_URL}), way to be a hero ${AUTHOR_NAME}")
+      slackSend (color: '#00FF00', message: "Commit SUCCESSFUL https://github.com/artsncrafts-valencia/bestwebsiteever/commit/$GIT_COMMIT_HASH: Job '${env.JOB_NAME} [Build Number:${env.BUILD_NUMBER}]' ${COMMIT_MESSAGE} -- $GIT_COMMIT_HASH (${env.BUILD_URL}), way to be a hero $AUTHOR_NAME")
     }
 
     failure {
-      slackSend (color: '#FF0000', message: "Commit FAILED ${GIT_COMMIT_HASH}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'${COMMIT_MESSAGE} -- ${GIT_COMMIT_HASH} (${env.BUILD_URL}) Looking at you $AUTHOR_NAME}")
+      slackSend (color: '#FF0000', message: "Commit FAILED https://github.com/artsncrafts-valencia/bestwebsiteever/commit/$GIT_COMMIT_HASH: Job '${env.JOB_NAME} [Build Number:${env.BUILD_NUMBER}]'${COMMIT_MESSAGE} -- ${GIT_COMMIT_HASH} (${env.BUILD_URL}) Looking at you $AUTHOR_NAME")
     }
   }
 }
