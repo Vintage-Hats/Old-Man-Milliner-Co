@@ -17,16 +17,13 @@ pipeline {
       script: "git log --format=%B -n 1 HEAD",
       returnStdout: true
     )
-    BRANCH = sh (
-      script: "git branch",
-      returnStdout: true
-    )
+    branch = ${BRANCH_NAME}
   }
   stages {
 
     stage('Starting pipeline run') {
       steps {
-        slackSend (color: '#FFFF00', message: ":checkered_flag: STARTED: Job '(${env.BUILD_URL})'\n_Branch_ [$BRANCH] \n_Commiter_ *${AUTHOR_NAME}* \n_Message_\n ```${COMMIT_MESSAGE}```\nRepo URL to commit:\nhttps://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}")      }
+        slackSend (color: '#333CFF', message: ":checkered_flag: STARTED: Job '(${env.BUILD_URL})'\n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ *${AUTHOR_NAME}* \n_Message_\n ```${COMMIT_MESSAGE}``` \nRepo URL to commit:\n<https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}>")      }
     }
     stage('helm init') {
       steps {
