@@ -16,7 +16,7 @@ pipeline {
     stage('helm dry run'){
       steps {
         sh """
-          helm install  helm/artsncrafts/values.yaml helm/artsncrafts/ --dry-run --debug 
+          helm install -f helm/artsncrafts/values.yaml helm/artsncrafts/ --dry-run --debug 
         """
       }
     }
