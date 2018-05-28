@@ -1,22 +1,21 @@
-AUTHOR_NAME = sh (
-  script: "git show -s | grep Author | awk '{print \$2 \" \" \$3}'",
-  returnStdout: true
-)
-
-GIT_COMMIT_HASH = sh (
-  script: "git log -n 1 --pretty=format:'%H'", 
-  returnStdout: true
-)
-
-COMMIT_MESSAGE = sh (
-  script: "git log --format=%B -n 1 HEAD",
-  returnStdout: true
-)
-
 pipeline {
   agent {
     label 'helm-slave'
   }
+  AUTHOR_NAME = sh (
+    script: "git show -s | grep Author | awk '{print \$2 \" \" \$3}'",
+    returnStdout: true
+  )
+
+  GIT_COMMIT_HASH = sh (
+    script: "git log -n 1 --pretty=format:'%H'", 
+    returnStdout: true
+  )
+
+  COMMIT_MESSAGE = sh (
+    script: "git log --format=%B -n 1 HEAD",
+    returnStdout: true
+  )
   stages {
 
     stage('Starting pipeline run') {
