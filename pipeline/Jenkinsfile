@@ -46,6 +46,17 @@ pipeline {
       }
       steps {
         sh """
+          helm install -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace prod --debug
+        """
+      }
+    }
+  }
+  stage('helm deploy'){
+      when {
+        branch 'develope'
+      }
+      steps {
+        sh """
           helm install -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace dev --debug
         """
       }
