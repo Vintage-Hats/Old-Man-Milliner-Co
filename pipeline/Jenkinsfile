@@ -40,14 +40,16 @@ pipeline {
         """
       }
     }
-    /*
     stage('helm deploy'){
+      when {
+        branch 'master'
+      }
       steps {
         sh """
           helm install -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace dev --debug
         """
       }
-    }*/
+    }
   }
   post {
     success {
