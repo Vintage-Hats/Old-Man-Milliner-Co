@@ -16,7 +16,7 @@ pipeline {
     stage('helm dry run'){
       steps {
         sh """
-          echo $PATH
+          echo $PATH 
           which helm
           helm init helm/artsncrafts -n dev 
         """
