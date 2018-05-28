@@ -1,5 +1,5 @@
 AUTHOR_NAME = sh (
-  script: "git show -s | grep Author | awk '{print $2 " " $3}'",
+  script: "git show -s | grep Author | awk '{print \$2 " " \$3}'",
   returnStdout: true
 )
 
