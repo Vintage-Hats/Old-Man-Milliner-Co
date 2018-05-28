@@ -50,8 +50,7 @@ pipeline {
         """
       }
     }
-  }
-  stage('helm deploy'){
+    stage('helm deploy'){
       when {
         branch 'develope'
       }
