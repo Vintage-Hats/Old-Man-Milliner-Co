@@ -40,7 +40,7 @@ pipeline {
         """
       }
     }
-    stage('helm deploy'){
+    stage('helm deploy to development environment'){
       when {
         branch 'master'
       }
@@ -50,9 +50,9 @@ pipeline {
         """
       }
     }
-    stage('helm deploy'){
+    stage('helm deploy to production environment'){
       when {
-        branch 'develope'
+        branch 'development'
       }
       steps {
         sh """
