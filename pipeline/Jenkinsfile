@@ -19,6 +19,7 @@ pipeline {
           helm install helm/artsncrafts/ --dry-run --debug
         """
       }
+    }
     stage('helm deploy'){
       steps {
         sh """
