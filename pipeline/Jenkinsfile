@@ -4,17 +4,10 @@ pipeline {
     label 'helm-slave'
   }
   stages {
-    stage('helm init') {
-      steps {
-        sh """
-          helm init --values=helm/artsncrafts/values.yaml helm/artsncrafts/
-        """
-      }
-    }
     stage('helm linting') {
       steps {
         sh """
-          export PATH=/usr/local/bin:$PATH
+          echo $PATH
           which helm
           helm lint --values=helm/artsncrafts/values.yaml helm/artsncrafts/
         """
@@ -23,7 +16,6 @@ pipeline {
     stage('helm dry run'){
       steps {
         sh """
-          export PATH=/usr/local/bin:$PATH
           echo $PATH
           which helm
           helm init helm/artsncrafts -n dev 
