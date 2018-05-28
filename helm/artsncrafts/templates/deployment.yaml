@@ -24,27 +24,18 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http
+            - name: {{ template "artsncrafts.name" . }} 
               containerPort: 80
               protocol: TCP
-          livenessProbe:
-            httpGet:
-              path: /
-              port: http
-          readinessProbe:
-            httpGet:
-              path: /
-              port: http
           volumeMounts:
-          - mountPath: /var/www/html
+          - mountPath: /var/www/html/
             name: site-data
-            subPath: html
           resources:
 {{ toYaml .Values.resources | indent 12 }}
       volumes:
       - name: site-data
-      persistentVolumeClaim:
-        claimName: site-data
+        configMap:
+          Name: html-files
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
