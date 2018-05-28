@@ -52,10 +52,10 @@ pipeline {
   }
   post {
     success {
-      slackSend (color: '#00FF00', message: ":heavy_check_mark: Commit SUCCESSFUL (${env.BUILD_URL}), way to be a hero $AUTHOR_NAME")
+      slackSend (color: '#00FF00', message: ":heavy_check_mark: Commit SUCCESSFUL (${env.BUILD_URL})\n way to be a hero $AUTHOR_NAME :unicorn_face:")
     }
     failure {
-      slackSend (color: '#FF0000', message: ":boom: Commit FAILED (${env.BUILD_URL}), Looking at you $AUTHOR_NAME :eyes:")
+      slackSend (color: '#FF0000', message: ":boom: Commit FAILED (${env.BUILD_URL})\n Looking at you $AUTHOR_NAME :eyes:")
     }
   }
 }
