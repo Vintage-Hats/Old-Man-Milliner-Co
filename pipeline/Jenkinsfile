@@ -26,14 +26,7 @@ pipeline {
 
     stage('Starting pipeline run') {
       steps {
-        slackSend (color: '#FFFF00', message: ":checkered_flag: STARTED: Job '(${env.BUILD_URL})' 
-        \n_Branch_ [$BRANCH]
-        \n_Commiter_ *${AUTHOR_NAME}*
-        \n_Message_
-        \n```${COMMIT_MESSAGE}```
-        \nRepo URL to commit:
-        \nhttps://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}")
-      }
+        slackSend (color: '#FFFF00', message: ":checkered_flag: STARTED: Job '(${env.BUILD_URL})'\n_Branch_ [$BRANCH]\n_Commiter_ *${AUTHOR_NAME}*\n_Message_\n```${COMMIT_MESSAGE}```\nRepo URL to commit:\nhttps://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}")      }
     }
     stage('helm init') {
       steps {
