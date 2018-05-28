@@ -16,14 +16,14 @@ pipeline {
     stage('helm dry run'){
       steps {
         sh """
-          helm install helm/artsncrafts/ --dry-run --debug 
+          helm upgrade helm/artsncrafts/ -f values.yaml --dry-run --debug 
         """
       }
     }
     stage('helm deploy'){
       steps {
         sh """
-          helm install helm/artsncrafts/ --namespace dev --debug
+          helm upgrade helm/artsncrafts/ -f values.yaml --namespace dev --debug
         """
       }
     }
