@@ -18,6 +18,10 @@ pipeline {
       returnStdout: true
     )
     branch = "${BRANCH_NAME}"
+    VERSION = sh (
+      script: "kubectl get pod --selector=app=artsncrafts --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
+      returnStdout: true
+    )
   }
   stages {
 
@@ -36,7 +40,7 @@ pipeline {
     stage('helm dry run'){
       steps {
         sh """
-          helm upgrade -f helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace dev --dry-run --debug 
+          helm upgrade -f helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace dev --dry-run --debug 
         """
       }
     }
@@ -46,7 +50,7 @@ pipeline {
       }
       steps {
         sh """
-          helm upgrade -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace dev --debug
+          helm upgrade -f  helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace dev --debug
         """
       }
     }
@@ -56,7 +60,7 @@ pipeline {
       }
       steps {
         sh """
-          helm upgrade -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace prod --debug
+          helm upgrade -f  helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace prod --debug
         """
       }
     }
