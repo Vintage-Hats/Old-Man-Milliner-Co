@@ -3,9 +3,9 @@ apiVersion: v1
 metadata:
   name: site-data
 spec:
-  storageClassName: manual
+  storageClassName: slow
   accessModes:
-    - ReadWriteOnce
+    - ReadWriteMany
   resources:
     requests:
       storage: 10Gi

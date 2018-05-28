@@ -1,11 +1,35 @@
-
 pipeline {
   agent {
     label 'helm-slave'
   }
+  environment {
+    AUTHOR_NAME = sh (
+      script: "git show -s | grep Author | awk '{print \$2 \" \" \$3}'",
+      returnStdout: true
+    )
+
+    GIT_COMMIT_HASH = sh (
+      script: "git log -n 1 --pretty=format:'%H'", 
+      returnStdout: true
+    )
+
+    COMMIT_MESSAGE = sh (
+      script: "git log --format=%B -n 1 HEAD",
+      returnStdout: true
+    )
+    branch = "${BRANCH_NAME}"
+    VERSION = sh (
+      script: "kubectl get pod --selector=app=artsncrafts --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
+      returnStdout: true
+    )
+  }
   stages {
 
-
+    stage('Starting pipeline run') {
+      steps {
+        slackSend (color: '#333CFF', message: ":checkered_flag: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> executing for commit <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
+      }
+    }
     stage('helm init') {
       steps {
         sh """
@@ -16,17 +40,37 @@ pipeline {
     stage('helm dry run'){
       steps {
         sh """
-          helm install -f helm/artsncrafts/values.yaml helm/artsncrafts/ --dry-run --debug 
+          helm upgrade -f helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace dev --dry-run --debug 
         """
       }
     }
-    
-    stage('helm deploy'){
+    stage('helm deploy to development environment'){
+      when {
+        branch 'development'
+      }
       steps {
         sh """
-          helm tall -f  helm/artsncrafts/values.yaml helm/artsncrafts/ --namespace dev --debug
+          helm upgrade -f  helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace dev --debug
         """
       }
+    }
+    stage('helm deploy to production environment'){
+      when {
+        branch 'master'
+      }
+      steps {
+        sh """
+          helm upgrade -f  helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace prod --debug
+        """
+      }
+    }
+  }
+  post {
+    success {
+      slackSend (color: '#00FF00', message: ":heavy_check_mark: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> SUCCEEDED for <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}] \nWay to be a hero $AUTHOR_NAME:unicorn_face:")
+    }
+    failure {
+      slackSend (color: '#FF0000', message: ":boom: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> FAILED for <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
     }
   }
 }
