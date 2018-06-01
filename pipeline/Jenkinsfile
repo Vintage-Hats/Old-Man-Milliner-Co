@@ -18,8 +18,12 @@ pipeline {
       returnStdout: true
     )
     branch = "${BRANCH_NAME}"
-    VERSION = sh (
+    PROD_VERSION = sh (
       script: "kubectl get pod --selector=app=artsncrafts --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
+      returnStdout: true
+    )
+    DEV_VERSION = sh (
+      script: "kubectl get pod --selector=app=artsncrafts --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
     )
   }
@@ -37,10 +41,23 @@ pipeline {
         """
       }
     }
-    stage('helm dry run'){
+    stage('development helm dry run'){
+      when {
+        branch 'development'
+      }
       steps {
         sh """
-          helm upgrade -f helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace dev --dry-run --debug 
+          helm upgrade -f helm/artsncrafts/values.yaml $DEV_VERSION helm/artsncrafts/ --namespace dev --dry-run --debug 
+        """
+      }
+    }
+    stage('production helm dry run'){
+      when {
+        branch 'master'
+      }
+      steps {
+        sh """
+          helm upgrade -f helm/artsncrafts/values.yaml $PROD_VERSION helm/artsncrafts/ --namespace prod --dry-run --debug 
         """
       }
     }
@@ -50,9 +67,9 @@ pipeline {
       }
       steps {
         sh """
-          kubectl delete configmap html-files -ndev
-          kubectl create configmap html-files --from-file helm/artsncrafts/html/ -dev
-          helm upgrade -f  helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace dev --debug
+          kubectl delete configmap html-files -ndev 
+          kubectl create configmap html-files --from-file helm/artsncrafts/html/ -ndev
+          helm upgrade -f  helm/artsncrafts/values.yaml $DEV_VERSION helm/artsncrafts/ --namespace dev --debug
         """
       }
     }
@@ -64,7 +81,7 @@ pipeline {
         sh """
           kubectl delete configmap html-files -nprod
           kubectl create configmap html-files --from-file helm/artsncrafts/html/ -nprod
-          helm upgrade -f  helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace prod --debug
+          helm upgrade -f  helm/artsncrafts/values.yaml $PROD_VERSION helm/artsncrafts/ --namespace prod --debug
         """
       }
     }
