@@ -50,7 +50,7 @@ pipeline {
       }
       steps {
         sh """
-          kubectl delete configmap html-files -ndev
+          kubectl delete configmap html-files -ndev 
           kubectl create configmap html-files --from-file helm/artsncrafts/html/ -dev
           helm upgrade -f  helm/artsncrafts/values.yaml $VERSION helm/artsncrafts/ --namespace dev --debug
         """
