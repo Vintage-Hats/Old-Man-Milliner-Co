@@ -57,7 +57,7 @@ pipeline {
       }
       steps {
         sh """
-          helm upgrade -f helm/artsncrafts/values.yaml $DEV_VERSION helm/artsncrafts/ --namespace prod --dry-run --debug 
+          helm upgrade -f helm/artsncrafts/values.yaml $PROD_VERSION helm/artsncrafts/ --namespace prod --dry-run --debug 
         """
       }
     }
