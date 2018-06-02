@@ -2,7 +2,6 @@ service:
   name: prod-milliner
   type: LoadBalancer
   Port: 80
-<<<<<<< HEAD
 
   ingress:
   enabled: true
@@ -17,5 +16,3 @@ service:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-=======
->>>>>>> e5dc02711c05e854e80e26e12e34194cbcfd5cbb

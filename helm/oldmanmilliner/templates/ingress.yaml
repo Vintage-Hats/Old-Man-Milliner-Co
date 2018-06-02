@@ -4,7 +4,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ $fullName }}
+  name: {{ .Values.service.name }}-{{ .Release.Name }}
   labels:
     app: {{ template "oldmanmilliner.name" . }}
     chart: {{ template "oldmanmilliner.chart" . }}
@@ -32,7 +32,7 @@ spec:
         paths:
           - path: {{ $ingressPath }}
             backend:
-              serviceName: {{ $fullName }}
+              serviceName: {{ .Values.service.name }}
               servicePort: http
   {{- end }}
 {{- end }}
