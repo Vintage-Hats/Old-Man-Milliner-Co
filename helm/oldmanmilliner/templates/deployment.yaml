@@ -1,22 +1,23 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ template "artsncrafts.fullname" . }}
+  name: {{ .Values.metadata.name }}
   labels:
-    app: {{ template "artsncrafts.name" . }}
-    chart: {{ template "artsncrafts.chart" . }}
+    app: {{ template "oldmanmilliner.name" . }}
+    chart: {{ template "oldmanmilliner.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
+  namespace: {{ .Values.metadata.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "artsncrafts.name" . }}
+      app: {{ template "oldmanmilliner.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "artsncrafts.name" . }}
+        app: {{ template "oldmanmilliner.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
@@ -24,7 +25,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: {{ template "artsncrafts.name" . }} 
+            - name: {{ template "oldmanmilliner.name" . }} 
               containerPort: 80
               protocol: TCP
           volumeMounts:

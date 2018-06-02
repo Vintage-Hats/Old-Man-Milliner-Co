@@ -1,0 +1,8 @@
+metadata:
+  name: dev
+  namespace: dev
+
+service:
+  name: dev-milliner
+  type: LoadBalancer
+  Port: 80
