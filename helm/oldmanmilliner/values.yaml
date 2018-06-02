@@ -9,10 +9,6 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
     
-ingress:
-  enabled: false
-  annotations: {}
-
 resources: 
   limits:
     cpu: 100m
