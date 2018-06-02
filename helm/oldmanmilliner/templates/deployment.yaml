@@ -1,13 +1,12 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ .Values.metadata.name }}
+  name: {{ .Values.service.name }}
   labels:
     app: {{ template "oldmanmilliner.name" . }}
     chart: {{ template "oldmanmilliner.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
-  namespace: {{ .Values.metadata.namespace }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
