@@ -17,8 +17,6 @@ ingress:
   enabled: false
   annotations: {}
   
-
-
 resources: 
   limits:
     cpu: 100m
