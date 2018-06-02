@@ -1,4 +1,4 @@
 service:
-  name: prod-milliner
+  name: dev-milliner
   type: LoadBalancer
   Port: 80
