@@ -7,7 +7,6 @@ metadata:
 {{- with .Values.ingress.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
-{{- end }}
 spec:
     - hosts:
       {{- range .hosts }}
