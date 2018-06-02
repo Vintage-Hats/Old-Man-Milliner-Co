@@ -1,26 +1,24 @@
-{{- $fullName := include "oldmanmilliner.fullname" . -}}
-{{- $ingressPath := .Values.ingress.path -}}
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ .Chart.Name }}-{{ .Release.Name }}
+  name: {{ .Values.service.name }}
 {{- with .Values.ingress.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
+{{- end }}
 spec:
     - hosts:
       {{- range .hosts }}
         - {{ . }}
       {{- end }}
       secretName: {{ .secretName }}
-  {{- end }}
-{{- end }}
   rules:
   {{- range .Values.ingress.hosts }}
     - host: {{ . }}
       http:
         paths:
-          - path: {{ $ingressPath }}
+          - path: /var/www/html
             backend:
-              serviceName: {{ .Chart.Name }}-{{ .Release.Name }}
+              serviceName: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
               servicePort: 80
+  {{- end }}
