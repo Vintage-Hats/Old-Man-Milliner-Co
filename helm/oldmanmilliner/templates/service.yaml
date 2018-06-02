@@ -3,7 +3,7 @@ kind: Service
 metadata:
   name: {{ .Values.service.name }}
   labels:
-    app: {{ .Values.service.name }}
+    app: {{ template "oldmanmilliner.name" . }}
     chart: {{ template "oldmanmilliner.chart" . }}
 spec:
   type: LoadBalancer
@@ -11,4 +11,4 @@ spec:
     - name: {{ .Values.service.name }}
       port: 80
   selector:
-    app: {{ .Values.service.name }}
+    app: {{ template "oldmanmilliner.name" . }}
