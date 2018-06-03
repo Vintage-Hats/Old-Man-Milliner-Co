@@ -1,5 +1,28 @@
-service:
-  name: prod-milliner
+# Default values for oldmanmilliner.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
 
+replicaCount: 1
+
+image:
+  repository: 871729447574.dkr.ecr.us-east-1.amazonaws.com/php-apache
+  tag: latest
+  pullPolicy: IfNotPresent
+    
 ingress:
   enabled: false
+  annotations: {}
+  
+resources: 
+  limits:
+    cpu: 100m
+    memory: 128Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
