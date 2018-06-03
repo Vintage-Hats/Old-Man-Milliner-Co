@@ -75,6 +75,8 @@ pipeline {
       }
       steps {
         sh """
+          ls -l
+          pwd
           kubectl cp helm/oldmanmilliner/html/ prod/$PROD_NAME:/var/www/
           helm upgrade -f  helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --debug
         """
@@ -86,6 +88,8 @@ pipeline {
       }
       steps {
         sh """
+          ls -l
+          pwd
           kubectl cp helm/oldmanmilliner/html/ prod/$PROD_NAME:/var/www/
           helm upgrade -f  helm/oldmanmilliner/values/prod-values.yaml $PROD_VERSION helm/oldmanmilliner/ --namespace prod --debug
         """
