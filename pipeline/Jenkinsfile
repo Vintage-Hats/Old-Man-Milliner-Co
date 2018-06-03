@@ -39,7 +39,7 @@ pipeline {
 
     stage('Starting pipeline run') {
       steps {
-        slackSend (color: '#333CFF', message: ":checkered_flag: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> executing for commit <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
+        slackSend (color: '#333CFF', message: ":checkered_flag: <${env.BUILD_URL}|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> executing for commit <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
       }
     }
     stage('helm init') {
@@ -96,7 +96,12 @@ pipeline {
       steps {
         sh """
           sleep 30
-          kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
+          if [ -f helm/oldmanmilliner/html/index.php ];
+          then
+            rm -rf helm/oldmanmilliner/html/index.php
+          else
+            kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
+          fi
         """
       }
     }
@@ -107,17 +112,22 @@ pipeline {
       steps {
         sh """
           sleep 30
-          kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
+          if [ -f helm/oldmanmilliner/html/index.php ];
+          then
+            rm -rf helm/oldmanmilliner/html/index.php
+          else
+            kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
+          fi
         """
       }
     }
   }
   post {
     success {
-      slackSend (color: '#00FF00', message: ":heavy_check_mark: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> SUCCEEDED for <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}] \nWay to be a hero $AUTHOR_NAME:unicorn_face:")
+      slackSend (color: '#00FF00', message: ":heavy_check_mark: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> SUCCEEDED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}] \nWay to be a hero $AUTHOR_NAME:unicorn_face:")
     }
     failure {
-      slackSend (color: '#FF0000', message: ":boom: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> FAILED for <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
+      slackSend (color: '#FF0000', message: ":boom: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> FAILED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
     }
   }
 }
