@@ -1,9 +1,4 @@
 service:
   name: prod-milliner
-
-ingress:
-  enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-  hosts:
-    - www.oldmanmilliner.com
+  type: LoadBalancer
+  Port: 80
