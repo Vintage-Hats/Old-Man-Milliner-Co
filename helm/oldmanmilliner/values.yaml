@@ -2,15 +2,4 @@ service:
   name: prod-milliner
 
 ingress:
-  enabled: true
-  annotations: {}
-    kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /var/www/html/
-  hosts:
-    - www.oldmanmilliner.com
-    
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
+  enabled: false

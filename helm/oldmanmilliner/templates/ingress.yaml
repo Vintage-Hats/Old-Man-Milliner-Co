@@ -2,7 +2,10 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ .Chart.Name }}-{{ .Release.Name }}
-  annotations: {}
+{{- with .Values.ingress.annotations }}
+  annotations:
+{{ toYaml . | indent 4 }}
+{{- end }}
 spec:
     - hosts:
       {{- range .hosts }}
@@ -19,3 +22,4 @@ spec:
               serviceName: {{ .Chart.Name }}-{{ .Release.Name }}
               servicePort: 80
   {{- end }}
+
