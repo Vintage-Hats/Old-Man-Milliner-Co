@@ -26,6 +26,14 @@ pipeline {
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
     )
+     PROD_NAME = sh (
+      script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'",
+      returnStdout: true
+    )
+    DEV_NAME = sh (
+      script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'",
+      returnStdout: true
+    )
   }
   stages {
 
@@ -67,8 +75,7 @@ pipeline {
       }
       steps {
         sh """
-          kubectl delete configmap html-files -ndev 
-          kubectl create configmap html-files --from-file helm/oldmanmilliner/html/ -ndev
+          kubectl cp html/ prod/$PROD_NAME:/var/www/
           helm upgrade -f  helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --debug
         """
       }
@@ -79,8 +86,7 @@ pipeline {
       }
       steps {
         sh """
-          kubectl delete configmap html-files -nprod
-          kubectl create configmap html-files --from-file helm/oldmanmilliner/html/ -nprod
+          kubectl cp html/ prod/$PROD_NAME:/var/www/
           helm upgrade -f  helm/oldmanmilliner/values/prod-values.yaml $PROD_VERSION helm/oldmanmilliner/ --namespace prod --debug
         """
       }

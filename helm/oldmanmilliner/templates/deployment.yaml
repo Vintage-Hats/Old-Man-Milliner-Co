@@ -27,15 +27,8 @@ spec:
             - name: {{ template "oldmanmilliner.name" . }} 
               containerPort: 80
               protocol: TCP
-          volumeMounts:
-          - mountPath: /var/www/html/
-            name: site-data
           resources:
 {{ toYaml .Values.resources | indent 12 }}
-      volumes:
-      - name: site-data
-        configMap:
-          Name: html-files
     {{- with .Values.nodeSelector }}
       nodeSelector:
 {{ toYaml . | indent 8 }}
