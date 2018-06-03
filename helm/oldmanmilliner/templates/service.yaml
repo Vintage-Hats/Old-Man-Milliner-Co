@@ -11,4 +11,4 @@ spec:
       targetPort: 80
       protocol: TCP
   selector:
-    app: {{ .Values.service.name }}-{{ .Release.Name }}
+    app: {{ .Values.service.name }}
