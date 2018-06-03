@@ -96,11 +96,6 @@ pipeline {
       steps {
         sh """
           sleep 30
-          file="`kubectl exec $DEV_NAME -n dev -- ls index.php`"
-          if [ "$file" == "index.php"];
-          then
-            kubectl exec $DEV_NAME -n dev -- rm -rf index.php
-          else
             kubectl cp helm/oldmanmilliner/html dev/$DEV_NAME:/var/www/
           fi
         """
@@ -113,13 +108,7 @@ pipeline {
       steps {
         sh """
           sleep 30
-          file="`kubectl exec $PROD_NAME -n prod -- ls index.php`"
-          if [ "$file" == "index.php"];
-          then
-            kubectl exec $PROD_NAME -n prod -- rm -rf index.php
-          else
             kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
-          fi
         """
       }
     }
