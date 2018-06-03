@@ -77,7 +77,7 @@ pipeline {
         sh """
           ls -l
           pwd
-          helm upgrade -f  helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --debug
+          helm upgrade -f helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --debug
           kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
         """
       }
