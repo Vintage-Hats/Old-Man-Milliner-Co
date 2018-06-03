@@ -108,7 +108,7 @@ pipeline {
     }
     stage('copy files to production environment'){
       when {
-        branch 'master'
+        branch 'master' 
       }
       steps {
         sh """
