@@ -89,7 +89,6 @@ pipeline {
         """
       }
     }
-  }
   stage('copy files to development environment'){
       when {
         branch 'development'
