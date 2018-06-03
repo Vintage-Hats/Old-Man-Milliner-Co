@@ -1,10 +1,10 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ .Values.service.name }}-{{ .Release.Name }}
+  name: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
   labels:
     app: {{ .Values.service.name }}
-    chart: {{ template "oldmanmilliner.chart" . }}
+    chart: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:

@@ -1,8 +1,8 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: {{ .Values.service.name }}
-  
+  name: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
+
 spec:
   ports:
       name: http
