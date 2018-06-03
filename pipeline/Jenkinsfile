@@ -96,8 +96,8 @@ pipeline {
       steps {
         sh """
           sleep 30
-          file="helm/oldmanmilliner/html/index.php"
-          if [ -f "$file" ];
+          file="`kubectl exec $DEV_NAME -n dev -- ls index.php`"
+          if [ "$file" == "index.php"];
           then
             rm -rf helm/oldmanmilliner/html/index.php
           else
@@ -113,8 +113,8 @@ pipeline {
       steps {
         sh """
           sleep 30
-          file="helm/oldmanmilliner/html/index.php"
-          if [ -f "$file" ];
+          file="`kubectl exec $PROD_NAME -n prod -- ls index.php`"
+          if [ "$file" == "index.php"];
           then
             rm -rf helm/oldmanmilliner/html/index.php
           else
