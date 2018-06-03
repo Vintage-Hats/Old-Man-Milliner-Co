@@ -35,26 +35,6 @@ pipeline {
         slackSend (color: '#333CFF', message: ":checkered_flag: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> executing for commit <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
       }
     }
-    stage('Dev helm init') {
-      when {
-        branch 'development'
-      }
-      steps {
-        sh """
-          helm lint -f /helm/oldmanmilliner/values/dev-values.yaml helm/oldmanmilliner/
-        """
-      }
-    }
-    stage('Prod helm init') {
-      when {
-        branch 'master'
-      }
-      steps {
-        sh """
-           helm lint helm/oldmanmilliner --values=helm/oldmanmilliner/values/prod-values.yaml
-        """
-      }
-    }
     stage('development helm dry run'){
       when {
         branch 'development'

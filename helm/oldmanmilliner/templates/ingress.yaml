@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
-  name: {{ .Chart.Name }}-{{ .Release.Name }}
+  name: oldmanmilliner-{{ .Release.Name }}
 {{- with .Values.ingress.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
@@ -19,7 +19,7 @@ spec:
         paths:
           - path: /var/www/html
             backend:
-              serviceName: {{ .Chart.Name }}-{{ .Release.Name }}
+              serviceName: oldmanmilliner-{{ .Release.Name }}
               servicePort: 80
   {{- end }}
 
