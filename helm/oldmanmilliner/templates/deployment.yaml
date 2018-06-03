@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
   labels:
-    app: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
+    app: {{ template "oldmanmilliner.chart" . }}
     chart: {{ template "oldmanmilliner.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -11,12 +11,12 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
+      app: {{ template "oldmanmilliner.chart" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
+        app: {{ template "oldmanmilliner.chart" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
