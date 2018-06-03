@@ -24,7 +24,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: {{ template "oldmanmilliner.name" . }} 
+            - name: http 
               containerPort: 80
               protocol: TCP
           volumeMounts:
