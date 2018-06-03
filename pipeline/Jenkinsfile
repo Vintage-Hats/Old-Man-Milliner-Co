@@ -20,11 +20,11 @@ pipeline {
     )
     branch = "${BRANCH_NAME}"
     PROD_VERSION = sh (
-      script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
+      script: "kubectl get pod --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
     )
     DEV_VERSION = sh (
-      script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
+      script: "kubectl get pod --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
     )
   }
