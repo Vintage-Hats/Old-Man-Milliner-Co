@@ -27,7 +27,7 @@ spec:
         paths:
           - path: {{ $ingressPath }}
             backend:
-              serviceName: {{ .Values.service.name }}
+              serviceName: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
               servicePort: 80
   {{- end }}
 {{- end }}

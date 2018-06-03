@@ -11,12 +11,12 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: {{ .Values.service.name }}
+      app: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: {{ .Values.service.name }}
+        app: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
         release: {{ .Release.Name }}
     spec:
       containers:
