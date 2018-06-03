@@ -3,8 +3,8 @@ kind: Deployment
 metadata:
   name: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
   labels:
-    app: {{ .Values.service.name }}
-    chart: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
+    app: {{ template "oldmanmilliner.chart" . }}-{{ .Release.Name }}
+    chart: {{ template "oldmanmilliner.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
 spec:
