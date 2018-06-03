@@ -19,7 +19,7 @@ spec:
         paths:
           - path: /var/www/html
             backend:
-              serviceName: oldmanmilliner-{{ .Release.Name }}
+              serviceName: oldmanmilliner
               servicePort: 80
   {{- end }}
 
