@@ -100,7 +100,7 @@ pipeline {
           then
             rm -rf helm/oldmanmilliner/html/index.php
           else
-            kubectl cp helm/oldmanmilliner/html prod/$DEV_NAME:/var/www/
+            kubectl cp helm/oldmanmilliner/html dev/$DEV_NAME:/var/www/
           fi
         """
       }
