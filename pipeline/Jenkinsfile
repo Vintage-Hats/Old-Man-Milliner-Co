@@ -96,7 +96,8 @@ pipeline {
       steps {
         sh """
           sleep 30
-          if [ -e helm/oldmanmilliner/html/index.php ];
+          file="helm/oldmanmilliner/html/index.php"
+          if [ -f "$file" ];
           then
             rm -rf helm/oldmanmilliner/html/index.php
           else
@@ -112,7 +113,8 @@ pipeline {
       steps {
         sh """
           sleep 30
-          if [ -e helm/oldmanmilliner/html/index.php ];
+          file="helm/oldmanmilliner/html/index.php"
+          if [ -f "$file" ];
           then
             rm -rf helm/oldmanmilliner/html/index.php
           else
