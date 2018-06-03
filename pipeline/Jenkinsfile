@@ -97,7 +97,6 @@ pipeline {
         sh """
           sleep 30
             kubectl cp helm/oldmanmilliner/html dev/$DEV_NAME:/var/www/
-          fi
         """
       }
     }
