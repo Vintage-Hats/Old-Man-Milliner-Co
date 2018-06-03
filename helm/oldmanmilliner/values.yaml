@@ -8,16 +8,10 @@ image:
   repository: 871729447574.dkr.ecr.us-east-1.amazonaws.com/php-apache
   tag: latest
   pullPolicy: IfNotPresent
-
-service:
-  type: LoadBalancer
-  Port: 80
     
 ingress:
   enabled: false
   annotations: {}
-  
-
 
 resources: 
   limits:
