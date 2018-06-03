@@ -13,18 +13,17 @@ pipeline {
       returnStdout: true
     )
 
-
     COMMIT_MESSAGE = sh (
       script: "git log --format=%B -n 1 HEAD",
       returnStdout: true
     )
     branch = "${BRANCH_NAME}"
     PROD_VERSION = sh (
-      script: "kubectl get pod --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
+      script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
     )
     DEV_VERSION = sh (
-      script: "kubectl get pod --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
+      script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
     )
   }
@@ -33,6 +32,13 @@ pipeline {
     stage('Starting pipeline run') {
       steps {
         slackSend (color: '#333CFF', message: ":checkered_flag: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> executing for commit <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
+      }
+    }
+    stage('helm init') {
+      steps {
+        sh """
+          helm lint helm/oldmanmilliner/
+        """
       }
     }
     stage('development helm dry run'){
