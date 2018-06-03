@@ -26,12 +26,20 @@ pipeline {
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
     )
+     PROD_NAME = sh (
+      script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'",
+      returnStdout: true
+    )
+    DEV_NAME = sh (
+      script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'",
+      returnStdout: true
+    )
   }
   stages {
 
     stage('Starting pipeline run') {
       steps {
-        slackSend (color: '#333CFF', message: ":checkered_flag: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> executing for commit <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
+        slackSend (color: '#333CFF', message: ":checkered_flag: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> executing for commit <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
       }
     }
     stage('helm init') {
@@ -67,9 +75,7 @@ pipeline {
       }
       steps {
         sh """
-          kubectl delete configmap html-files -ndev 
-          kubectl create configmap html-files --from-file helm/oldmanmilliner/html/ -ndev
-          helm upgrade -f  helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --debug
+          helm upgrade -f helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --debug
         """
       }
     }
@@ -79,19 +85,49 @@ pipeline {
       }
       steps {
         sh """
-          kubectl delete configmap html-files -nprod
-          kubectl create configmap html-files --from-file helm/oldmanmilliner/html/ -nprod
           helm upgrade -f  helm/oldmanmilliner/values/prod-values.yaml $PROD_VERSION helm/oldmanmilliner/ --namespace prod --debug
+        """
+      }
+    }
+  stage('copy files to development environment'){
+      when {
+        branch 'development'
+      }
+      steps {
+        sh """
+          sleep 30
+          if [ -f helm/oldmanmilliner/html/index.php ];
+          then
+            rm -rf helm/oldmanmilliner/html/index.php
+          else
+            kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
+          fi
+        """
+      }
+    }
+    stage('copy files to production environment'){
+      when {
+        branch 'master'
+      }
+      steps {
+        sh """
+          sleep 30
+          if [ -f helm/oldmanmilliner/html/index.php ];
+          then
+            rm -rf helm/oldmanmilliner/html/index.php
+          else
+            kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
+          fi
         """
       }
     }
   }
   post {
     success {
-      slackSend (color: '#00FF00', message: ":heavy_check_mark: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> SUCCEEDED for <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}] \nWay to be a hero $AUTHOR_NAME:unicorn_face:")
+      slackSend (color: '#00FF00', message: ":heavy_check_mark: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> SUCCEEDED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}] \nWay to be a hero $AUTHOR_NAME:unicorn_face:")
     }
     failure {
-      slackSend (color: '#FF0000', message: ":boom: <${env.BUILD_URL}|artsncraft-pipeline ${env.BUILD_NUMBER}> FAILED for <https://github.com/artsncrafts-valencia/bestwebsiteever/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
+      slackSend (color: '#FF0000', message: ":boom: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|vintage-hats|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> FAILED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
     }
   }
 }

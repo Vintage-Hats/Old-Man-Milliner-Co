@@ -2,17 +2,3 @@ service:
   name: prod-milliner
   type: LoadBalancer
   Port: 80
-
-  ingress:
-  enabled: true
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  path: /
-  hosts:
-    - www.oldmanmilliner.com
-    
-  tls: []
-  #  - secretName: chart-example-tls
-  #    hosts:
-  #      - chart-example.local
