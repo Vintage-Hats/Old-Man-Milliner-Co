@@ -41,7 +41,7 @@ pipeline {
       }
       steps {
         sh """
-          helm lint helm/oldmanmilliner/ --values=/helm/oldmanmilliner/values/dev-values.yaml
+          helm lint -f /helm/oldmanmilliner/values/dev-values.yaml helm/oldmanmilliner/
         """
       }
     }
@@ -51,7 +51,7 @@ pipeline {
       }
       steps {
         sh """
-          helm lint helm/oldmanmilliner/ --values=/helm/oldmanmilliner/values/prod-values.yaml
+          helm lint  -f /helm/oldmanmilliner/values/prod-values.yaml helm/oldmanmilliner/
         """
       }
     }
