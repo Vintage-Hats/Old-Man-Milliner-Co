@@ -2,13 +2,12 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Values.service.name }}
-  labels:
-    app: {{ template "oldmanmilliner.name" . }}
-    chart: {{ template "oldmanmilliner.chart" . }}
+
 spec:
-  type: LoadBalancer
   ports:
-    - name: {{ .Values.service.name }}
+      name:http
       port: 80
+      targetPort: 80
+      protocol: TCP
   selector:
-    app: {{ template "oldmanmilliner.name" . }}
+    app: {{ .Values.service.name }}-{{ .Release.Name }}

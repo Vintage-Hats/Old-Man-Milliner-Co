@@ -5,11 +5,6 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: {{ .Values.service.name }}-{{ .Release.Name }}
-  labels:
-    app: {{ template "oldmanmilliner.name" . }}
-    chart: {{ template "oldmanmilliner.chart" . }}
-    release: {{ .Release.Name }}
-    heritage: {{ .Release.Service }}
 {{- with .Values.ingress.annotations }}
   annotations:
 {{ toYaml . | indent 4 }}
@@ -33,6 +28,6 @@ spec:
           - path: {{ $ingressPath }}
             backend:
               serviceName: {{ .Values.service.name }}
-              servicePort: http
+              servicePort: 80
   {{- end }}
 {{- end }}
