@@ -9,6 +9,8 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
     
+service: 
+  name: prod-milliner
 ingress:
   enabled: false
   annotations: {}
