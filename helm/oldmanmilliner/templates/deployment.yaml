@@ -1,9 +1,9 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: {{ .Chart.Name }}-{{ .Release.Name }}
+  name: {{ .Values.service.name }}-{{ .Release.Name }}
   labels:
-    app: oldmanmilliner
+    app: {{ template "oldmanmilliner.name" . }}
     chart: {{ template "oldmanmilliner.chart" . }}
     release: {{ .Release.Name }}
     heritage: {{ .Release.Service }}
@@ -11,12 +11,12 @@ spec:
   replicas: {{ .Values.replicaCount }}
   selector:
     matchLabels:
-      app: oldmanmilliner
+      app: {{ template "oldmanmilliner.name" . }}
       release: {{ .Release.Name }}
   template:
     metadata:
       labels:
-        app: oldmanmilliner
+        app: {{ template "oldmanmilliner.name" . }}
         release: {{ .Release.Name }}
     spec:
       containers:
@@ -24,7 +24,7 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
-            - name: http 
+            - name: {{ template "oldmanmilliner.name" . }} 
               containerPort: 80
               protocol: TCP
           volumeMounts:
