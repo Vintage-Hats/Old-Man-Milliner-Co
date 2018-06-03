@@ -96,28 +96,18 @@ pipeline {
       steps {
         sh """
           sleep 30
-          if [ -f helm/oldmanmilliner/html/index.php ];
-          then
-            rm -rf helm/oldmanmilliner/html/index.php
-          else
-            kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
-          fi
+            kubectl cp helm/oldmanmilliner/html dev/$DEV_NAME:/var/www/
         """
       }
     }
     stage('copy files to production environment'){
       when {
-        branch 'master'
+        branch 'master' 
       }
       steps {
         sh """
           sleep 30
-          if [ -f helm/oldmanmilliner/html/index.php ];
-          then
-            rm -rf helm/oldmanmilliner/html/index.php
-          else
             kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
-          fi
         """
       }
     }
@@ -127,7 +117,7 @@ pipeline {
       slackSend (color: '#00FF00', message: ":heavy_check_mark: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> SUCCEEDED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}] \nWay to be a hero $AUTHOR_NAME:unicorn_face:")
     }
     failure {
-      slackSend (color: '#FF0000', message: ":boom: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|vintage-hats|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> FAILED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
+      slackSend (color: '#FF0000', message: ":boom: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> FAILED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
     }
   }
 }
