@@ -49,26 +49,6 @@ pipeline {
         """
       }
     }
-    stage('development helm dry run'){
-      when {
-        branch 'development'
-      }
-      steps {
-        sh """
-          helm upgrade -f helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --dry-run --debug 
-        """
-      }
-    }
-    stage('production helm dry run'){
-      when {
-        branch 'master'
-      }
-      steps {
-        sh """
-          helm upgrade -f helm/oldmanmilliner/values/prod-values.yaml $PROD_VERSION helm/oldmanmilliner/ --namespace prod --dry-run --debug 
-        """
-      }
-    }
     stage('helm deploy to development environment'){
       when {
         branch 'development'

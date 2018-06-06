@@ -5,6 +5,7 @@ metadata:
   labels:
     app: {{ template "oldmanmilliner.name" . }}
     chart: {{ template "oldmanmilliner.chart" . }}
+    
 spec:
   type: LoadBalancer
   ports:
