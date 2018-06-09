@@ -76,6 +76,7 @@ pipeline {
       steps {
         sh """
           sleep 30
+            kubectl exec -it $DEV_NAME -ndev -- rm -rf ../html
             kubectl cp helm/oldmanmilliner/html dev/$DEV_NAME:/var/www/
         """
       }
@@ -87,6 +88,7 @@ pipeline {
       steps {
         sh """
           sleep 30
+	    kubectl exec -it $PROD_NAME -nprod -- rm -rf ../html
             kubectl cp helm/oldmanmilliner/html prod/$PROD_NAME:/var/www/
         """
       }
