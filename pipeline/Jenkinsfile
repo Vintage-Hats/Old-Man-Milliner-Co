@@ -55,7 +55,7 @@ pipeline {
       }
       steps {
         sh """
-          helm upgrade -f helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --debug
+          helm upgrade -f helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --debug  --timeout 900 --wait
         """
       }
     }
@@ -65,7 +65,7 @@ pipeline {
       }
       steps {
         sh """
-          helm upgrade -f  helm/oldmanmilliner/values/prod-values.yaml $PROD_VERSION helm/oldmanmilliner/ --namespace prod --debug
+          helm upgrade -f  helm/oldmanmilliner/values/prod-values.yaml $PROD_VERSION helm/oldmanmilliner/ --namespace prod --debug --timeout 900 --wait
         """
       }
     }
