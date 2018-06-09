@@ -17,6 +17,7 @@ pipeline {
       script: "git log --format=%B -n 1 HEAD",
       returnStdout: true
     )
+    
     branch = "${BRANCH_NAME}"
     PROD_VERSION = sh (
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
