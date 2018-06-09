@@ -43,35 +43,7 @@ pipeline {
         slackSend (color: '#333CFF', message: ":checkered_flag: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> executing for commit <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
       }
     }
-    stage('helm init') {
-      steps {
-        sh """
-          helm lint helm/oldmanmilliner/
-        """
-      }
-    }
-
-    stage('helm deploy to development environment'){
-      when {
-        branch 'development'
-      }
-      steps {
-        sh """
-          helm upgrade -f helm/oldmanmilliner/values/dev-values.yaml $DEV_VERSION helm/oldmanmilliner/ --namespace dev --debug  --timeout 900 --wait
-        """
-      }
-    }
-    stage('helm deploy to production environment'){
-      when {
-        branch 'master'
-      }
-      steps {
-        sh """
-          helm upgrade -f  helm/oldmanmilliner/values/prod-values.yaml $PROD_VERSION helm/oldmanmilliner/ --namespace prod --debug --timeout 900 --wait
-        """
-      }
-    }
-  stage('copy files to development environment'){
+    stage('copy files to development environment'){
       when {
         branch 'development'
       }
