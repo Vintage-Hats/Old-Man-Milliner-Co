@@ -52,8 +52,8 @@ pipeline {
             kubectl delete pod $DEV_NAME -ndev
             sleep 30
             DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
-            chown -R www-data: helm/oldmanmilliner/html/
             kubectl cp helm/oldmanmilliner/html dev/\$DEV_NAME:/var/www/
+            kubectl exec -it \$DEV_NAME -ndev -- sh -c "/bin/chown -R www-data: *"
         """
       }
     }
@@ -66,8 +66,8 @@ pipeline {
 	          kubectl delete pod $PROD_NAME -nprod
             sleep 30
             PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
-            chown -R www-data: helm/oldmanmilliner/html/
             kubectl cp helm/oldmanmilliner/html prod/\$PROD_NAME:/var/www/
+            kubectl exec -it \$PROD_NAME -nprod -- sh -c "/bin/chown -R www-data: *"
         """
       }
     }
