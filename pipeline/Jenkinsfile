@@ -99,7 +99,7 @@ pipeline {
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown -R www-data: *\"
         """
       }
-    }
+    }/*
     stage('curl status 200 OK for development URL'){
       when {
         branch 'development'
@@ -131,7 +131,7 @@ pipeline {
             fi
         """
       }
-    }
+    }*/
   }
   post {
     success {
