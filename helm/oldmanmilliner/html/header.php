@@ -7,7 +7,7 @@
 		<body>
 			<div id='header'>
 				<img src='images/logo.jpg' alt='Old Man Milliner & Co. logo'>
-				<h1>Old Man Milliner & Co. Hat Emporium</h1>
+				<h1>Old Man Milliner & Co.</h1>
 			</div>
 			<div class='nav' id='top'>
 				<ul>
