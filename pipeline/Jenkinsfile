@@ -53,6 +53,7 @@ pipeline {
             sleep 30
             DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
             kubectl cp helm/oldmanmilliner/html dev/\$DEV_NAME:/var/www/
+            kubectl cp helm/oldmanmilliner/php.ini dev/\$DEV_NAME:/usr/local/etc/php/
         """
       }
     }
@@ -66,9 +67,71 @@ pipeline {
             sleep 30
             PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
             kubectl cp helm/oldmanmilliner/html prod/\$PROD_NAME:/var/www/
+            kubectl cp helm/oldmanmilliner/php.ini prod/\$PROD_NAME:/usr/local/etc/php/
+
         """
       }
     }
+    stage('update permissions for development files'){
+      when {
+        branch 'development'
+      }
+      steps {
+        sh """
+            DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
+            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
+            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
+            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod -R 755 *\"
+            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown -R www-data: *\"
+        """
+      }
+    }
+    stage('update permissions for production files'){
+      when {
+        branch 'master' 
+      }
+      steps {
+        sh """
+            PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
+            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
+            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
+            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod -R 755 *\"
+            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown -R www-data: *\"
+        """
+      }
+    }/*
+    stage('curl status 200 OK for development URL'){
+      when {
+        branch 'development'
+      }
+      steps {
+        sh """
+            status="`wget http://dev.oldmanmilliner.com 2>&1 | grep -o 200`"
+            if [ "\$status" != "200" ];
+            then
+              echo "Site is not returning proper status code, Site is offline"
+            else
+              echo "Site is returning proper status code, Site is up"
+            fi
+        """
+      }
+    }
+    stage('curl status 200 OK for production URL'){
+      when {
+        branch 'master' 
+      }
+      steps {
+        sh """
+            status="`wget http://www.oldmanmilliner.com 2>&1 | grep -o 200`"
+            if [ "\$status" != "200" ];
+            then
+              echo "Site is not returning proper status code, Site is offline"
+            else
+              echo "Site is returning proper status code, Site is up"
+            fi
+        """
+      }
+    }*/
   }
   post {
     success {
