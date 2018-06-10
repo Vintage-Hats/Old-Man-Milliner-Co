@@ -100,8 +100,7 @@ pipeline {
         """
       }
     }
-  }
-  stage('curl status 200 OK for development URL'){
+    stage('curl status 200 OK for development URL'){
       when {
         branch 'development'
       }
