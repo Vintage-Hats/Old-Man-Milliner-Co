@@ -2,7 +2,7 @@
 	<html>
 		<head>
 			<title>Old Man Milliner & Company hat Emporium</title>
-			<link rel='stylesheet' href='assets/css.css'>
+			<!-- <link rel='stylesheet' href='assets/css.css'> -->
 		</head>
 		<body>
 			<div id='header'>
