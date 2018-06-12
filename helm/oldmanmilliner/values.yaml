@@ -7,12 +7,10 @@ replicaCount: 1
 image:
   repository: 871729447574.dkr.ecr.us-east-1.amazonaws.com/php-apache
   tag: latest
-  pullPolicy: IfNotPresent
-
-service:
-  type: LoadBalancer
-  Port: 80
+  pullPolicy: Always
     
+service: 
+  name: prod-milliner
 ingress:
   enabled: false
   annotations: {}
