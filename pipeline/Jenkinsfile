@@ -17,131 +17,6 @@ pipeline {
       script: "git log --format=%B -n 1 HEAD",
       returnStdout: true
     )
-
-    branch = "${BRANCH_NAME}"
-
-    PROD_VERSION = sh (
-      script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
-      returnStdout: true
-    )
-
-    DEV_VERSION = sh (
-      script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
-      returnStdout: true
-    )
-
-     PROD_NAME = sh (
-      script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'",
-      returnStdout: true
-    )
-
-    DEV_NAME = sh (
-      script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'",
-      returnStdout: true
-    )
-
-  }
-  stages {
-
-    stage('Starting pipeline run') {
-      steps {
-        slackSend (color: '#333CFF', message: ":checkered_flag: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> executing for commit <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
-      }
-    }
-    stage('copy files to development environment'){
-      when {
-        branch 'development'
-      }
-      steps {
-        sh """
-            kubectl delete pod $DEV_NAME -ndev
-            sleep 15
-            DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
-            sleep 10
-            kubectl cp helm/oldmanmilliner/html dev/\$DEV_NAME:/var/www/
-            sleep 10
-            kubectl cp helm/oldmanmilliner/php.ini dev/\$DEV_NAME:/usr/local/etc/php/
-        """
-      }
-    }
-    stage('copy files to production environment'){
-      when {
-        branch 'master' 
-      }
-      steps {
-        sh """
-	          kubectl delete pod $PROD_NAME -nprod
-            sleep 15
-            PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
-            sleep 10
-            kubectl cp helm/oldmanmilliner/html prod/\$PROD_NAME:/var/www/
-            sleep 10
-            kubectl cp helm/oldmanmilliner/php.ini prod/\$PROD_NAME:/usr/local/etc/php/
-
-        """
-      }
-    }
-    stage('update permissions for development files'){
-      when {
-        branch 'development'
-      }
-      steps {
-        sh """
-            DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
-            sleep 5
-            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
-            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
-            sleep 5
-            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod -R 755 *\"
-            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown -R www-data: *\"
-        """
-      }
-    }
-    stage('update permissions for production files'){
-      when {
-        branch 'master' 
-      }
-      steps {
-        sh """
-            PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
-            sleep 5
-            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
-            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
-            sleep 5
-            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod -R 755 *\"
-            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown -R www-data: *\"
-        """
-      }
-    }
-  }
-  post {
-    success {
-      slackSend (color: '#00FF00', message: ":heavy_check_mark: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> SUCCEEDED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}] \nWay to be a hero $AUTHOR_NAME:unicorn_face:")
-    }
-    failure {
-      slackSend (color: '#FF0000', message: ":boom: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> FAILED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
-    }
-  }
-}
-pipeline {
-  agent {
-    label 'helm-slave'
-  }
-  environment {
-    AUTHOR_NAME = sh (
-      script: "git show -s | grep Author | awk '{print \$2 \" \" \$3}'",
-      returnStdout: true
-    )
-
-    GIT_COMMIT_HASH = sh (
-      script: "git log -n 1 --pretty=format:'%H'", 
-      returnStdout: true
-    )
-
-    COMMIT_MESSAGE = sh (
-      script: "git log --format=%B -n 1 HEAD",
-      returnStdout: true
-    )
     
     branch = "${BRANCH_NAME}"
     PROD_VERSION = sh (
@@ -177,7 +52,7 @@ pipeline {
             kubectl delete pod $DEV_NAME -ndev
             sleep 30
             DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
-            kubectl cp helm/oldmanmilliner/www/ dev/\$DEV_NAME:/var/www/
+            kubectl cp helm/oldmanmilliner/www dev/\$DEV_NAME:/var/www/
             kubectl cp helm/oldmanmilliner/php.ini dev/\$DEV_NAME:/usr/local/etc/php/
         """
       }
@@ -191,7 +66,7 @@ pipeline {
 	          kubectl delete pod $PROD_NAME -nprod
             sleep 30
             PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
-            kubectl cp helm/oldmanmilliner/www/ prod/\$PROD_NAME:/var/www/
+            kubectl cp helm/oldmanmilliner/www prod/\$PROD_NAME:/var/www/
             kubectl cp helm/oldmanmilliner/php.ini prod/\$PROD_NAME:/usr/local/etc/php/
 
         """
