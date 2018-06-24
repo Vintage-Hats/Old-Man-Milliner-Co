@@ -177,7 +177,7 @@ pipeline {
             kubectl delete pod $DEV_NAME -ndev
             sleep 30
             DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
-            kubectl cp helm/oldmanmilliner/html dev/\$DEV_NAME:/var/www/
+            kubectl cp helm/oldmanmilliner/www dev/\$DEV_NAME:/var/www/
             kubectl cp helm/oldmanmilliner/php.ini dev/\$DEV_NAME:/usr/local/etc/php/
         """
       }
@@ -191,7 +191,7 @@ pipeline {
 	          kubectl delete pod $PROD_NAME -nprod
             sleep 30
             PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
-            kubectl cp helm/oldmanmilliner/html prod/\$PROD_NAME:/var/www/
+            kubectl cp helm/oldmanmilliner/www prod/\$PROD_NAME:/var/www/
             kubectl cp helm/oldmanmilliner/php.ini prod/\$PROD_NAME:/usr/local/etc/php/
 
         """
@@ -206,8 +206,8 @@ pipeline {
             DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
-            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod -R 755 *\"
-            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown -R www-data: *\"
+            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod -R 755 /var/www/\"
+            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown -R www-data: /var/www/\"
         """
       }
     }
@@ -220,8 +220,8 @@ pipeline {
             PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
-            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod -R 755 *\"
-            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown -R www-data: *\"
+            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod -R 755 /var/www/\"
+            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown -R www-data: /var/www/\"
         """
       }
     }/*
