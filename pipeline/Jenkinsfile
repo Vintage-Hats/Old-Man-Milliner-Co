@@ -50,7 +50,7 @@ pipeline {
       steps {
         sh """
             kubectl delete pod $DEV_NAME -ndev
-            sleep 20
+            sleep 30
             DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
             kubectl cp helm/oldmanmilliner/www/ dev/\$DEV_NAME:/var/www/
             kubectl cp helm/oldmanmilliner/php.ini dev/\$DEV_NAME:/usr/local/etc/php/
@@ -64,11 +64,10 @@ pipeline {
       steps {
         sh """
 	          kubectl delete pod $PROD_NAME -nprod
-            sleep 20
+            sleep 30
             PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
             kubectl cp helm/oldmanmilliner/www/ prod/\$PROD_NAME:/var/www/
             kubectl cp helm/oldmanmilliner/php.ini prod/\$PROD_NAME:/usr/local/etc/php/
-
         """
       }
     }
