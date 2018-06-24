@@ -84,7 +84,7 @@ pipeline {
             sleep 5
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod -R 755 *\"
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown -R www-data: *\"
-            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"ls -lah /var/www/*\"
+            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"ls -lah /var/www/html/*\"
         """
       }
     }
@@ -100,7 +100,7 @@ pipeline {
             sleep 5
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod -R 755 *\"
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown -R www-data: *\"
-            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"ls -lah /var/www/*\"
+            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"ls -lah /var/www/html/*\"
         """
       }
     }/*
