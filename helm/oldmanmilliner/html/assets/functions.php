@@ -1,5 +1,5 @@
 <?php
-	require_once '../cred.php';
+	require_once '../../cred.php';
 
 /*[t] CONNECTION TOGGLE :: FIXME: remove for production*/
 	// LOCALHOST 
