@@ -1,41 +1,31 @@
 <?php
+	require_once '../cred.php';
 
-/* CONNECT TO LOCALHOST toggle *
-
-	$conn = new mysqli("localhost", "dave", "pass", "oldManMilliner");
-		
-// */ // END CONNECT TO LOCALHOST
-
-/* CONNECT TO OMM toggle */
-
-	$dbhost="milliner.cbtlze2bnbgy.us-east-1.rds.amazonaws.com";
-	$dbport=3306;
-	$dbsckt="";
-	$dbuser="milliner";
-	$dbpass="ilikehats";
-	$dbname="oldmanmilliner";
-
-	$conn = new mysqli($dbhost, $dbuser, $dbpass, $dbname, $dbport, $dbsckt)
-		or die ('Could not connect to the database server' . mysqli_connect_error());
-	
-	$q = "SELECT * FROM hats;";
-	$records = $conn->query($q);
-	
-// */ // END CONNECT TO OMM
-
-/* TEST 01: DESCRIBE CONNECTION toggle *
-	
-	if ($conn->connect_error) {
-		echo var_dump(get_object_vars($conn->connect_error));
-		die($connection->connect_error);
-	} else {
-		echo "<p>". var_dump(get_object_vars($conn)) ."</p>";
-		echo "<p>host info: " . mysqli_get_host_info($conn) . PHP_EOL ."</p>";
+/*[t] CONNECTION TOGGLE :: FIXME: remove for production*/
+	// LOCALHOST 
+	function q($query) {
+		$c = getC("1");
+		$conn = new mysqli($c[0], $c[1], $c[2], $c[3]);
+		unset($c);
+		$records = $conn->query($query);
+		return $records;
 	}
 
-// */ // END DESCRIBE OBJECT
+	/*/
 
-/* TEST 02: DESCRIBE RECORDS toggle *
+	// OMM
+	function q($query) {
+		$c = getC("0"); //FIXME: change to no longer send an argument
+		$conn = new mysqli($c['h'], $c['u'], $c['w'], $c['n'], $c['p'], $c['s'])
+			or die ('Could not connect to the database server' . mysqli_connect_error());
+		unset($c);
+		$records = $conn->query($query);
+		return $records;
+	}
+
+// */ // END CONNECTION TOGGLE
+
+/* TEST: DESCRIBE RECORDS toggle *
 
 	$rows = $records->num_rows;
 	// parse and display data
@@ -46,8 +36,5 @@
 	}
 
 // */ // END DESCRIBE RECORDS
-
-
-
 
 ?>

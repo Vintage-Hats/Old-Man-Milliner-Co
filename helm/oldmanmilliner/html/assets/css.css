@@ -24,7 +24,7 @@ body {
 	height: 100%;
 	margin: 0;
 	padding: 0 10px 0 10px;
-	background-color: #ddd;
+	background-color: #eee;
 }
 
 #logo {
@@ -42,7 +42,7 @@ body {
 
 #searchForm {
 	padding: 0 10px 0 10px;
-	font-size: 0.65em;
+	font-size: 0.75em;
 }
 
 h1 {
@@ -56,17 +56,22 @@ h2 {
 	margin: 0;
 	padding: 20px 0 0 10px;
 	font-family: 'Cutive', serif;
+	font-size: 0.9em;
 	width: 90%;
 	border-bottom: 1px dotted black;;
 }
 
 h3 {
-	margin: 0;
-	padding: 0 0 0 10px;
+	margin: 10px 0 0 0;
+	padding: 0;
 	width: 90%;
 	font-family: 'Cutive', serif;
-	font-size: 0.8em;
-	border-bottom: 1px dotted black;;
+	font-size: 1em;
+}
+
+li {
+	list-style-type: none;
+	font-size: .8em;
 }
 
 #rightCol h2 {
@@ -159,6 +164,37 @@ a:hover {
 	margin: 5px 0 0 0;
 }
 
+/* storeBuilder FIXME */ 
+.productBottom {
+
+}
+
+.sizes {
+
+}
+
+.price {
+
+}
+
+.product:nth-child(even) {
+	background-color: #eee;
+}
+.smIMG {
+	max-width: 125px;
+	max-height: 125px;
+	margin: 4px 10px 10px 10px;
+	padding: 5px;
+	float: left;
+	border: 1px black solid;
+}
+
+.product ul {
+	-webkit-columns: 2 100px;
+	-moz-columns: 2 100px;
+	columns: 2 100px;
+	margin: 4px 0 0 0;
+}
 
 /* 
  * font-family: 'Oswald', sans-serif;
