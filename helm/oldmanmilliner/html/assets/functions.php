@@ -6,8 +6,7 @@
 		$u = "milliner";
 		$w = "ilikehats";
 		$n = "oldmanmilliner";
-		$conn = new mysqli($h, $u, $w, $n, $p, $s)
-			or die ('Could not connect to the database server' . mysqli_connect_error());
+		$conn = new mysqli($h, $u, $w, $n, $p, $s);
 		$records = $conn->query($query);
 		return $records;
 	}
