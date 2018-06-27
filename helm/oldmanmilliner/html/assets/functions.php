@@ -7,7 +7,7 @@
 	$n = "oldmanmilliner";
 
 	function q($query) {
-		$conn = new mysqli($h, $u, $w, $n, $p, $cs)
+		$conn = new mysqli($h, $u, $w, $n, $p, $s)
 			or die ('Could not connect to the database server' . mysqli_connect_error());
 		$records = $conn->query($query);
 		return $records;
