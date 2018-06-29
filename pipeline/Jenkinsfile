@@ -81,8 +81,10 @@ pipeline {
             DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
+            sleep 5
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod -R 755 *\"
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown -R www-data: *\"
+            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"ls -lah /var/www/html/*\"
         """
       }
     }
@@ -95,8 +97,10 @@ pipeline {
             PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
+            sleep 5
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod -R 755 *\"
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown -R www-data: *\"
+            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"ls -lah /var/www/html/*\"
         """
       }
     }/*
