@@ -103,6 +103,7 @@ pipeline {
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"ls -lah /var/www/html/*\"
         """
       }
+    }
   }
   post {
     success {
