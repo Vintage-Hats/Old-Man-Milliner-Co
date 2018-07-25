@@ -4,5 +4,4 @@
 			<title>Old Man Milliner & Company Hat Emporium</title>
 			<link rel='stylesheet' href='assets/css.css'>
 		</head>
-		<body>
 			<div id='container'>
