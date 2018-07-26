@@ -1,4 +1,4 @@
-
+					<img src='images/h-banner1.png' class='hBanner'>
 					<ul class='nav'>
 						<li><a href="index.php">&nbsp; Home &nbsp;</a></li>
 						<li><a href="shop.php">&nbsp; Emporium &nbsp;</a></li>

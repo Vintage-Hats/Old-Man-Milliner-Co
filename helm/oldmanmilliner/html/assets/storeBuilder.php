@@ -112,15 +112,15 @@
 			$divider1 = ''; $divider2 = ''; $divider3 = '';
 
 			//create strings for available sizes
-			if($record['sm']) $sm = "Small:   <input type='number' id='addToCart' name='quantitySmall'>";
-			if($record['md']) $md = "Medium:  <input type='number' id='addToCart' name='quantityMedium' maxlength='3'>";
-			if($record['lg']) $lg = "Large:   <input type='number' id='addToCart' name='quantityLarge' maxlength='3'>";
-			if($record['xl']) $xl = "X-Large: <input type='number' id='addToCart' name='quantityXlarge' maxlength='3'>";
+			if($record['sm']) $sm = "Small:   <input type='number' id='smAddToCart' name='quantitySmall'>";
+			if($record['md']) $md = "Medium:  <input type='number' id='mdAddToCart' name='quantityMedium' maxlength='3'>";
+			if($record['lg']) $lg = "Large:   <input type='number' id='lgAddToCart' name='quantityLarge' maxlength='3'>";
+			if($record['xl']) $xl = "X-Large: <input type='number' id='xlAddToCart' name='quantityXlarge' maxlength='3'>";
 
 			// Add dividers
-			if($sm && ($md || $lg || $xl)) 	$divider1 = " &nbsp; &nbsp; ";
-			if($md && ($lg || $xl))			$divider2 = " &nbsp; &nbsp; ";
-			if($lg && $xl)					$divider3 = " &nbsp; &nbsp; ";
+			if($sm && ($md || $lg || $xl)) 	$divider1 = " &nbsp; &nbsp;";
+			if($md && ($lg || $xl))			$divider2 = " &nbsp; &nbsp;";
+			if($lg && $xl)					$divider3 = " &nbsp; &nbsp;";
 
 			// assemble string
 			$availSizes = $sm.$divider1.$md.$divider2.$lg.$divider3.$xl;
@@ -142,13 +142,11 @@
 			echo $brim;
 			echo "                  <li>Color: " . $record['color'] . "</li>\n";
 			echo "				</ul>\n<br>\n";
-			echo "				<div class='sizes'> " . $availSizes;
-			echo "					<input type='submit' name='addToCart' value='Add to Cart'></div>\n";
+			echo "				<div class='sizes'> " . $availSizes . "<br><br><input type='submit' name='addToCart' value='Add to Cart'></div>\n";
 			echo "          </div>\n";
 		}
 	} else {
 		$query = "SELECT * FROM hats LEFT JOIN inventory ON (hats.id = inventory.hatID) ORDER BY hats.hatName;";
 		goto displayHats;
 	}
-
 ?>
