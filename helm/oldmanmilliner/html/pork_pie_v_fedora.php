@@ -12,7 +12,6 @@
 						<p>Options for the shape of the crown's top include center dent, teardrop, diamond, cattleman and telescope. A fedora’s brim can up or down all the way around; or, it can point up in the back and shaped down in the front.</p>
 						<image src='https://i1.wp.com/www.fashionablehats.com/wp-content/uploads/2017/01/pork-pie-hat-vs-fedora-1.jpg?w=550&ssl=1'>
 					</div> <!-- End of content window. Do not replace anything afte this. -->
-					<img src='images/h-banner1.png' class='hBanner'>
 
 <?php
 	require_once 'assets/footer.php';

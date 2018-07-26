@@ -22,7 +22,7 @@
 
 						<h3>Wear it with confidence.</h3>
 						<p>Stop worrying about your hat and just wear the damn thing. Put it on your head, and find an angle that looks good. As long as it’s not sitting perfectly evenly, you’re doing fine. If you aren’t confident, there’s a chance that the hat will wear you. If you hold your head up high and exude confidence, your classy style will be sure to turn heads.</p>
-						
+
 						<h3>Choose a fedora that matches your style.</h3>
 						<p>Most fedoras are made of felt, but some are made of wool, fur or straw. Some fedoras have wide bands with decoration and others do not. Depending on your style and what you’re looking for in a hat, you’ll need to make some decisions.</p>
 						<ul>
@@ -55,7 +55,6 @@
 						</ul>
 
 					</div> <!-- End of content window. Do not replace anything afte this. -->
-					<img src='images/h-banner1.png' class='hBanner'>
 
 <?php
 	require_once 'assets/footer.php';

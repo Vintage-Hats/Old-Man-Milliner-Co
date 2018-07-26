@@ -37,7 +37,6 @@
 					<p>Shape the brim to your taste, if necessaary. Many caps come with a relatively flat brim, and you can round it gently (not too much!) to fit your head better and contour naturally around your face Don’t wear a flat cap unpinned or snapped; this configuration isn’t part of the original style, even if the snap is working, and it tends to be a more feminine look.</p>
 
 					</div> <!-- End of content window. Do not replace anything afte this. -->
-					<img src='images/h-banner1.png' class='hBanner'>
 
 <?php
 	require_once 'assets/footer.php';
