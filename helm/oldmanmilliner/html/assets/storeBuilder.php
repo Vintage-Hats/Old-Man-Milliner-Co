@@ -89,9 +89,6 @@
 			$where = "(" . $where . ")";
 		}
 		$query = "SELECT * FROM hats LEFT JOIN inventory ON (hats.id = inventory.hatID) WHERE " . $where . " ORDER BY hats.hatName;";
-/* [t] TROUBLESHOOTING: display the string before it gets sent to get hats. * // FIXME: remove echo before going to production
-		echo $query;
-// */ // END TROUBLESHOOTING
     }
     else {
         $query = "SELECT * FROM hats LEFT JOIN inventory ON (hats.id = inventory.hatID) ORDER BY hats.hatName;";
