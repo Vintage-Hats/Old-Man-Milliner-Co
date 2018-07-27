@@ -28,15 +28,17 @@ pipeline {
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
     )
-    
+
      PROD_NAME = sh (
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'",
       returnStdout: true
     )
+    
     DEV_NAME = sh (
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'",
       returnStdout: true
     )
+
   }
   stages {
 
