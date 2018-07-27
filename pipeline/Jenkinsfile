@@ -7,17 +7,14 @@ pipeline {
       script: "git show -s | grep Author | awk '{print \$2 \" \" \$3}'",
       returnStdout: true
     )
-
     GIT_COMMIT_HASH = sh (
       script: "git log -n 1 --pretty=format:'%H'", 
       returnStdout: true
     )
-
     COMMIT_MESSAGE = sh (
       script: "git log --format=%B -n 1 HEAD",
       returnStdout: true
     )
-    
     branch = "${BRANCH_NAME}"
     PROD_VERSION = sh (
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
@@ -103,39 +100,7 @@ pipeline {
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"ls -lah /var/www/html/*\"
         """
       }
-    }/*
-    stage('curl status 200 OK for development URL'){
-      when {
-        branch 'development'
-      }
-      steps {
-        sh """
-            status="`wget http://dev.oldmanmilliner.com 2>&1 | grep -o 200`"
-            if [ "\$status" != "200" ];
-            then
-              echo "Site is not returning proper status code, Site is offline"
-            else
-              echo "Site is returning proper status code, Site is up"
-            fi
-        """
-      }
     }
-    stage('curl status 200 OK for production URL'){
-      when {
-        branch 'master' 
-      }
-      steps {
-        sh """
-            status="`wget http://www.oldmanmilliner.com 2>&1 | grep -o 200`"
-            if [ "\$status" != "200" ];
-            then
-              echo "Site is not returning proper status code, Site is offline"
-            else
-              echo "Site is returning proper status code, Site is up"
-            fi
-        """
-      }
-    }*/
   }
   post {
     success {
