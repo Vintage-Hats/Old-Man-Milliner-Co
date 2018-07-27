@@ -7,23 +7,19 @@ pipeline {
       script: "git show -s | grep Author | awk '{print \$2 \" \" \$3}'",
       returnStdout: true
     )
-
     GIT_COMMIT_HASH = sh (
       script: "git log -n 1 --pretty=format:'%H'", 
       returnStdout: true
     )
-
     COMMIT_MESSAGE = sh (
       script: "git log --format=%B -n 1 HEAD",
       returnStdout: true
     )
-
     branch = "${BRANCH_NAME}"
     PROD_VERSION = sh (
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
     )
-
     DEV_VERSION = sh (
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.labels.release}'",
       returnStdout: true
@@ -33,7 +29,7 @@ pipeline {
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'",
       returnStdout: true
     )
-    
+
     DEV_NAME = sh (
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'",
       returnStdout: true
