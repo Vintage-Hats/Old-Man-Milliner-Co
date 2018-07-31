@@ -1,0 +1,9 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: jenkins
+  namespace: jenkins
+spec:
+  backend:
+    serviceName: jenkins
+    servicePort: 8080
