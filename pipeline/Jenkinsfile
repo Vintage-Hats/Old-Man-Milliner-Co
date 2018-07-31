@@ -7,17 +7,14 @@ pipeline {
       script: "git show -s | grep Author | awk '{print \$2 \" \" \$3}'",
       returnStdout: true
     )
-
     GIT_COMMIT_HASH = sh (
       script: "git log -n 1 --pretty=format:'%H'", 
       returnStdout: true
     )
-
     COMMIT_MESSAGE = sh (
       script: "git log --format=%B -n 1 HEAD",
       returnStdout: true
     )
-    
     branch = "${BRANCH_NAME}"
     PROD_VERSION = sh (
       script: "kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.labels.release}'",
@@ -40,7 +37,7 @@ pipeline {
 
     stage('Starting pipeline run') {
       steps {
-        slackSend (color: '#333CFF', message: ":checkered_flag: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> executing for commit <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
+        slackSend (color: '#333CFF', message: ":checkered_flag: <http://jenkins.oldmanmilliner.com:30353/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> executing for commit <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> \n_Branch_ [ ${BRANCH_NAME} ] \n_Commiter_ $AUTHOR_NAME _Message_ ```${COMMIT_MESSAGE}```")
       }
     }
     stage('copy files to development environment'){
@@ -81,8 +78,10 @@ pipeline {
             DEV_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace dev -ojsonpath='{.items[*].metadata.name}'`"
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
+            sleep 5
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chmod -R 755 *\"
             kubectl exec -i \$DEV_NAME -ndev -- sh -c \"/bin/chown -R www-data: *\"
+            kubectl exec -i \$DEV_NAME -ndev -- sh -c \"ls -lah /var/www/html/*\"
         """
       }
     }
@@ -95,50 +94,20 @@ pipeline {
             PROD_NAME="`kubectl get pod --selector=app=oldmanmilliner --namespace prod -ojsonpath='{.items[*].metadata.name}'`"
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod 755 /usr/local/etc/php/php.ini\"
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown root:staff /usr/local/etc/php/php.ini\"
+            sleep 5
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chmod -R 755 *\"
             kubectl exec -i \$PROD_NAME -nprod -- sh -c \"/bin/chown -R www-data: *\"
-        """
-      }
-    }/*
-    stage('curl status 200 OK for development URL'){
-      when {
-        branch 'development'
-      }
-      steps {
-        sh """
-            status="`wget http://dev.oldmanmilliner.com 2>&1 | grep -o 200`"
-            if [ "\$status" != "200" ];
-            then
-              echo "Site is not returning proper status code, Site is offline"
-            else
-              echo "Site is returning proper status code, Site is up"
-            fi
+            kubectl exec -i \$PROD_NAME -nprod -- sh -c \"ls -lah /var/www/html/*\"
         """
       }
     }
-    stage('curl status 200 OK for production URL'){
-      when {
-        branch 'master' 
-      }
-      steps {
-        sh """
-            status="`wget http://www.oldmanmilliner.com 2>&1 | grep -o 200`"
-            if [ "\$status" != "200" ];
-            then
-              echo "Site is not returning proper status code, Site is offline"
-            else
-              echo "Site is returning proper status code, Site is up"
-            fi
-        """
-      }
-    }*/
   }
   post {
     success {
-      slackSend (color: '#00FF00', message: ":heavy_check_mark: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> SUCCEEDED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}] \nWay to be a hero $AUTHOR_NAME:unicorn_face:")
+      slackSend (color: '#00FF00', message: ":heavy_check_mark: <http://jenkins.oldmanmilliner.com:30353/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> SUCCEEDED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}] \nWay to be a hero $AUTHOR_NAME:unicorn_face:")
     }
     failure {
-      slackSend (color: '#FF0000', message: ":boom: <http://jenkins.oldmanmilliner.com:8080/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> FAILED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
+      slackSend (color: '#FF0000', message: ":boom: <http://jenkins.oldmanmilliner.com:30353/blue/organizations/jenkins/vintage-hats/detail/${BRANCH_NAME}/${env.BUILD_NUMBER}/pipeline|Vintage-Hats/Old-Man-Milliner-Co ${env.BUILD_NUMBER}> FAILED for <https://github.com/Vintage-Hats/Old-Man-Milliner-Co/commit/${GIT_COMMIT_HASH}|${GIT_COMMIT_HASH}> on [${BRANCH_NAME}]\n Looking at you $AUTHOR_NAME:eyes:")
     }
   }
 }

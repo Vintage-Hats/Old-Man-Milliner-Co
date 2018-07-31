@@ -8,6 +8,7 @@ body {
 	margin: 0;
 	padding: 0;
 	background-color: #000;
+	font-family: sans-serif;
 }
 
 #container {
@@ -24,7 +25,7 @@ body {
 	height: 100%;
 	margin: 0;
 	padding: 0 10px 0 10px;
-	background-color: #ddd;
+	background-color: #eee;
 }
 
 #logo {
@@ -34,15 +35,15 @@ body {
 
 #rightCol {
 	display: table-cell;
-	width: 585px;
+	width: 600px;
 	vertical-align: top;
-	margin: 0 20px 0 20px;
-	padding: 0 30px 0 30px;
+	margin: 0 10px;
+	padding: 0 10px;
 }
 
 #searchForm {
 	padding: 0 10px 0 10px;
-	font-size: 0.65em;
+	font-size: 0.9em;
 }
 
 h1 {
@@ -54,7 +55,7 @@ h1 {
 
 h2 {
 	margin: 0;
-	padding: 20px 0 0 10px;
+	padding: 0;
 	font-family: 'Cutive', serif;
 	width: 90%;
 	border-bottom: 1px dotted black;;
@@ -62,11 +63,15 @@ h2 {
 
 h3 {
 	margin: 0;
-	padding: 0 0 0 10px;
+	padding: 10px 0 2px 0;
 	width: 90%;
 	font-family: 'Cutive', serif;
-	font-size: 0.8em;
-	border-bottom: 1px dotted black;;
+	font-size: 1.1em;
+}
+
+li {
+	list-style-type: none;
+	font-size: .9em;
 }
 
 #rightCol h2 {
@@ -74,14 +79,14 @@ h3 {
 }
 
 p {
-	font-size: .75em;
+	font-size: .9em;
 	margin: 0;
 	padding: 0;
 	text-align: justify;
 }
 
 #rightCol p {
-	margin: 0 0 10px 0;
+	margin: 4px 4px 10px 0;
 }
 
 .smallSquare {
@@ -117,6 +122,7 @@ ul {
 	margin: 0;
 	padding: 0;
 	font-family: 'Cutive', serif;
+	font-size: 1.25em;
 }
 
 .nav:after {
@@ -159,6 +165,52 @@ a:hover {
 	margin: 5px 0 0 0;
 }
 
+/* storeBuilder FIXME */
+.product {
+	padding: 7px 7px 10px 7px;
+}
+
+.product .sizes{
+	text-align: right;
+}
+
+input[type=number] {
+	width: 30px;
+}
+
+.sizes {
+
+}
+
+.price {
+	background-color: #333;
+	color: #fff;
+	float: right;
+	text-align: right;
+	padding: 8px;
+	margin: 4px 0 0 4px;
+}
+
+.product:nth-child(even) {
+	background-color: #ddd;
+}
+.smIMG {
+	max-width: 125px;
+	max-height: 125px;
+	margin: 4px 10px 10px 10px;
+	padding: 5px;
+	float: left;
+	border: 1px black solid;
+	background-color: #fff;
+}
+
+.product ul {
+	-webkit-columns: 2 100px;
+	-moz-columns: 2 100px;
+	columns: 2 100px;
+	margin: 4px 0 0 0;
+	display: block;
+}
 
 /* 
  * font-family: 'Oswald', sans-serif;
