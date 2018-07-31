@@ -1,6 +1,12 @@
 # **Old Man Milliner & Co**
 [![Build Status](http://jenkins.oldmanmilliner.com:30353/buildStatus/icon?job=vintage-hats/master&.png)](http://jenkins.oldmanmilliner.com:30353/job/vintage-hats/job/master/)
 
+## Languages 
+![Mysql & PHP](http://www.thinknexttraining.com/images/App-icon/PHP-Mysql.png)
+![Go Lang](https://anilgkurianblog.files.wordpress.com/2017/01/go_lang1.png?w=300&h=157)
+![Yaml](https://raw.githubusercontent.com/amido/YamlMediaTypeFormatter/master/Artefacts/nuget-logo-128.png)
+![Groovy](https://cdn.iconscout.com/public/images/icon/free/png-256/groovy-35f8b97a03101dd4-256x256.png)
+
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue,
