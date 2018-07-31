@@ -1,5 +1,5 @@
 # **Old Man Milliner & Co**
-[![Build Status](http://jenkins.oldmanmilliner.com:30353/buildStatus/icon?job=vintage-hats/master)](http://jenkins.oldmanmilliner.com:30353/job/vintage-hats/job/master/)
+<a href='http://jenkins.oldmanmilliner.com:30353/job/vintage-hats/job/master/'><img src='http://jenkins.oldmanmilliner.com:30353/job/vintage-hats/job/master/badge/icon'></a>
 
 ## Contributing
 
