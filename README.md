@@ -7,6 +7,11 @@
 ![Yaml](https://raw.githubusercontent.com/amido/YamlMediaTypeFormatter/master/Artefacts/nuget-logo-128.png)
 ![Groovy](https://cdn.iconscout.com/public/images/icon/free/png-256/groovy-35f8b97a03101dd4-256x256.png)
 
+## Infrastructure
+![Docker](http://opensource.zalando.com/zalenium/img/docker_icon.png)
+![Helm](https://pbs.twimg.com/profile_images/859843681553178624/AHcBc6EG_400x400.jpg)
+![k8s & AWS](https://raw.githubusercontent.com/kubernetes/kops/master/docs/img/k8s-aws.png)
+
 ## Contributing
 
 When contributing to this repository, please first discuss the change you wish to make via issue,
