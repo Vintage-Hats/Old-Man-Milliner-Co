@@ -1,4 +1,7 @@
 # **Old Man Milliner & Co**
+This was a school project that was done using kubernetes, jenkins and such
+
+
 [![Build Status](http://jenkins.oldmanmilliner.com:30353/buildStatus/icon?job=vintage-hats/master&.png)](http://jenkins.oldmanmilliner.com:30353/job/vintage-hats/job/master/)
 
 ## Languages 
